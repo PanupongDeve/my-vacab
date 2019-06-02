@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import AppLayout from '../../Layouts/AppLayout';
 
 export default class index extends Component {
     render() {
         return (
-            <div>
+            <AppLayout>
                 <h1>Hello Page1</h1>
-            </div>
+            </AppLayout>
         )
     }
 }

@@ -1,36 +1,53 @@
-import React, { Component } from "react";
-import Sidebar from "../components/Sidebar";
+import React, { Component, Fragment } from 'react'
+import Container from '@material-ui/core/Container';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
-import { firebaseAuth } from "../service/FirebaseService/Authentication";
+import Appbar from '../components/Appbar'
+import Sidebar from '../components/Sidebar';
 
-export default class AppLayout extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isAuth: null
-    };
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    minHeight: '80vh',
+    marginTop: '25px'
+  },
+  sideBar: {
+    marginTop: '25px'
   }
-
-  async componentDidMount() {
-    await firebaseAuth.isAuthWithSetState(this.checkAuth);
-  }
-
-  checkAuth = isAuth => {
-    this.setState({ isAuth });
-  };
+});;
+class AppLayout extends Component {
+  
 
   render() {
+    const { classes } = this.props;
     return (
-      <main className="py-4">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4">
-              {this.state.isAuth ? <Sidebar /> : ""}
-            </div>
-            <div className="col-md-8">{this.props.children}</div>
-          </div>
-        </div>
-      </main>
-    );
+      <Fragment >
+        <Appbar />
+        <Container maxWidth="xl">
+          <Grid xs={12}>
+            <Paper className={classes.paper}>
+            <Grid container xs={12}>
+                <Grid className={classes.sideBar} item md={4} xs={12}>
+                  <Sidebar />
+                </Grid>
+                <Grid item  md={8} xs={12}>
+                  {this.props.children}
+                </Grid>
+              </Grid>
+            </Paper>
+          </Grid>
+        </Container>
+      </Fragment>
+    )
   }
 }
+
+export default withStyles(styles)(AppLayout);
